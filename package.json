@@ -1,0 +1,25 @@
+{
+    "name": "jups",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "rm -rf build/ && gulp && gulp minify",
+        "test": "tsc -p test/tsconfig.json && node test/index.js",
+        "run": "npm run build && npm run test"
+    },
+    "keywords": [],
+    "author": "Isaac Oram",
+    "license": "ISC",
+    "devDependencies": {
+        "gulp": "^4.0.2",
+        "gulp-concat": "^2.6.1",
+        "gulp-sourcemaps": "^2.6.5",
+        "gulp-typescript": "^6.0.0-alpha.1",
+        "gulp-uglify": "^3.0.2",
+        "typescript": "^3.7.5"
+    },
+    "dependencies": {
+        "@types/node": "^13.5.0"
+    }
+}
