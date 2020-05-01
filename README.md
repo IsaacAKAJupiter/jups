@@ -2,6 +2,10 @@
 
 # jups
 
+[![NPM Version](https://img.shields.io/npm/v/jups.svg)](https://npmjs.org/package/jups)
+[![NPM Downloads](https://img.shields.io/npm/dm/jups.svg)](https://npmcharts.com/compare/jups?minimal=true)
+[![Install Size](https://packagephobia.now.sh/badge?p=jups)](https://packagephobia.now.sh/result?p=jups)
+
 A fast, lightweight web framework for [NodeJS](http://nodejs.org).
 
 ## Why
