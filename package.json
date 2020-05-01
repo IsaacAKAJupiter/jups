@@ -10,7 +10,7 @@
     },
     "keywords": [],
     "author": "Isaac Oram",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "@types/node": "^13.13.4",
         "gulp": "^4.0.2",
