@@ -2,7 +2,13 @@
     "name": "jups",
     "version": "0.1.0",
     "description": "A fast, lightweight web framework for NodeJS.",
-    "main": "index.js",
+    "main": "build/jups.js",
+    "types": "build/jups.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:IsaacAKAJupiter/jups.git"
+    },
+    "homepage": "https://github.com/IsaacAKAJupiter/jups",
     "scripts": {
         "build": "rm -rf build/ && gulp && gulp minify",
         "test": "tsc -p test/tsconfig.json && node test/index.js",
@@ -20,9 +26,5 @@
         "gulp-uglify": "^3.0.2",
         "typescript": "^3.8.3"
     },
-    "dependencies": {},
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:IsaacAKAJupiter/jups.git"
-    }
+    "dependencies": {}
 }
