@@ -40,32 +40,41 @@ export function fetchMiddleware(jups: Jups, req: Request, url: string) {
  * @param req The `Request` object.
  * @param res The `Response` object.
  */
-export async function handleMiddleware(req: Request, res: Response) {
-    let next: NextCallback = async (error?: string | Error) => {
-        if (res.writableEnded) return;
+export function handleMiddleware(req: Request, res: Response) {
+    return new Promise(async (resolve, reject) => {
+        let next: NextCallback = async (error?: string | Error) => {
+            if (res.writableEnded) {
+                resolve();
+                return;
+            }
 
-        // If there is an error given.
-        if (error && req.routeErrorHandler) {
-            await Promise.resolve(
-                req.routeErrorHandler(
-                    req,
-                    res,
-                    error instanceof Error ? error : new Error(error)
-                )
-            );
+            // If there is an error given.
+            if (error && req.routeErrorHandler) {
+                await Promise.resolve(
+                    req.routeErrorHandler(
+                        req,
+                        res,
+                        error instanceof Error ? error : new Error(error)
+                    )
+                );
 
-            // If the error handler did not end the response, end it.
-            if (!res.writableEnded) res.end();
-            return;
-        }
+                // If the error handler did not end the response, end it.
+                if (!res.writableEnded) res.end();
+                return;
+            }
 
-        // Pop the middleware then call the function.
-        req.middlewares.shift();
-        await fireMiddleware();
-    };
+            // Pop the middleware.
+            req.middlewares.shift();
 
-    let fireMiddleware = async () => {
-        if (req.middlewares.length && !res.writableEnded) {
+            // Check if there are middlewares left.
+            if (req.middlewares.length > 0 && !res.writableEnded) {
+                await fireMiddleware();
+            } else {
+                resolve();
+            }
+        };
+
+        let fireMiddleware = async () => {
             try {
                 await Promise.resolve(
                     req.middlewares[0].callback(req, res, next)
@@ -76,9 +85,9 @@ export async function handleMiddleware(req: Request, res: Response) {
                     await Promise.resolve(req.routeErrorHandler(req, res, e));
                 }
             }
-        }
-    };
+        };
 
-    // Fire middleware.
-    await fireMiddleware();
+        // Fire middleware.
+        await fireMiddleware();
+    });
 }
