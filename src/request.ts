@@ -14,7 +14,7 @@ export interface Params {
 }
 
 /**
- * This is the request object that will get sent with every request that the server will get.
+ * This is the request class that will get sent with every request that the server will get.
  * It is an extension of the `IncomingMessage` class that Node HTTP library uses by default with servers
  * with new variables to make it cleaner to work with for Jups.
  */
