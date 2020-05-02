@@ -1,6 +1,6 @@
 {
     "name": "jups",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "A fast, lightweight web framework for NodeJS.",
     "main": "build/jups.js",
     "types": "build/jups.d.ts",
