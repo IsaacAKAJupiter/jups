@@ -7,7 +7,7 @@ import {
     fetchMiddleware,
     MiddlewareCallback,
     Middleware,
-    handleMiddleware
+    handleMiddleware,
 } from './middleware';
 import { handleSubApps, SubApp } from './subapps';
 import {
@@ -16,7 +16,7 @@ import {
     generateRouteRegex,
     Route,
     RouteFunction,
-    handleRoutes
+    handleRoutes,
 } from './routes';
 import { generateVariables } from './utils';
 
@@ -163,7 +163,7 @@ namespace jups {
                     {
                         ServerResponse: Response,
                         IncomingMessage: Request,
-                        ...options.ssl
+                        ...options.ssl,
                     },
                     (req, res) => {
                         this._listener(<Request>req, <Response>res);
@@ -379,14 +379,14 @@ namespace jups {
                         regex,
                         base,
                         app: <Jups>uses[i],
-                        variables
+                        variables,
                     });
                 } else {
                     this.middlewares.push({
                         regex,
                         route: base,
                         callback: <MiddlewareCallback>uses[i],
-                        variables
+                        variables,
                     });
                 }
             }
@@ -462,10 +462,13 @@ namespace jups {
             if (!req.url) return;
 
             // Get the query params by looping through the regex matches.
-            let regex = /(?:\?|&|;)([^=]+)=([^&|;]+)/g;
+            let regex = /(?:\?|&|;)([^=|&|;]+)(?:=([^&|;]+))?/g;
             let matches: RegExpExecArray | null;
             while ((matches = regex.exec(req.url)) !== null) {
-                req.query[matches[1]] = matches[2];
+                // This is necessary to avoid infinite loops with zero-width matches
+                if (matches.index === regex.lastIndex) regex.lastIndex++;
+
+                req.query[matches[1]] = matches[2] || '';
             }
 
             // Update the url without the query params.

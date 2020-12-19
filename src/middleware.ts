@@ -41,7 +41,7 @@ export function fetchMiddleware(jups: Jups, req: Request, url: string) {
  * @param res The `Response` object.
  */
 export function handleMiddleware(req: Request, res: Response) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
         let next: NextCallback = async (error?: string | Error) => {
             if (res.writableEnded) {
                 resolve();
